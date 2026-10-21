@@ -1,0 +1,31 @@
+[Script Info]
+Title: Al-Marasil - Caustic Soda
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Main,Al-Jazeera-Arabic,80,&H00FFFFFF,&H000000FF,&H0078233A,&H6068182E,-1,0,0,0,100,100,0,0,1,3,4,2,70,70,770,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+
+Dialogue: 0,0:00:00.00,0:00:01.42,Main,,0,0,0,,بخصم {\c&H00E6742E}مميز{\c&H00FFFFFF}
+Dialogue: 0,0:00:01.42,0:00:03.74,Main,,0,0,0,,من الشركة {\c&H00E6742E}الإسبانية{\c&H00FFFFFF} المصنعة
+Dialogue: 0,0:00:03.74,0:00:05.14,Main,,0,0,0,,{\c&H00E6742E}المراسيل{\c&H00FFFFFF} وفرت لكم
+Dialogue: 0,0:00:05.14,0:00:06.86,Main,,0,0,0,,{\c&H00E6742E}أربع{\c&H00FFFFFF} أنواع من {\c&H00E6742E}العطور{\c&H00FFFFFF}
+Dialogue: 0,0:00:06.86,0:00:08.98,Main,,0,0,0,,بعروض سعر {\c&H00E6742E}مميزة{\c&H00FFFFFF}
+Dialogue: 0,0:00:08.98,0:00:10.12,Main,,0,0,0,,عطور تستخدمها
+Dialogue: 0,0:00:10.12,0:00:11.86,Main,,0,0,0,,{\c&H00E6742E}بالزاهي{\c&H00FFFFFF} {\c&H00E6742E}المعطرات{\c&H00FFFFFF}
+Dialogue: 0,0:00:11.86,0:00:13.34,Main,,0,0,0,,وغيرها من {\c&H00E6742E}المنظفات{\c&H00FFFFFF}
+Dialogue: 0,0:00:13.34,0:00:14.16,Main,,0,0,0,,{\c&H00E6742E}بلوسوم{\c&H00FFFFFF}
+Dialogue: 0,0:00:14.16,0:00:15.04,Main,,0,0,0,,{\c&H00E6742E}بيبوري{\c&H00FFFFFF}
+Dialogue: 0,0:00:15.04,0:00:16.04,Main,,0,0,0,,بوكيه 47
+Dialogue: 0,0:00:16.30,0:00:17.32,Main,,0,0,0,,بوكيه 48
+Dialogue: 0,0:00:17.99,0:00:18.99,Main,,0,0,0,,عنوانّا {\c&H00E6742E}بالموصل{\c&H00FFFFFF}
+Dialogue: 0,0:00:18.99,0:00:20.25,Main,,0,0,0,,شارع {\c&H00E6742E}السايلو{\c&H00FFFFFF}
+Dialogue: 0,0:00:20.25,0:00:22.20,Main,,0,0,0,,قرب ورش الألمنيوم والبلاستيك

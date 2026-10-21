@@ -1,0 +1,69 @@
+<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="utf-8">
+<style>@font-face{font-family:'Al-Jazeera-Arabic';src:url('../aljazeera-bold.ttf') format('truetype');font-weight:100 900;font-display:block;}
+@font-face{font-family:'Al-Jazeera-Arabic';src:local('Arial Black'),local('Arial Bold');unicode-range:U+0021-007E,U+00C0-00FF;font-weight:100 900;}
+html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="cv" width="1080" height="1920"></canvas>
+<script>
+/* «مستوحى من» — كروت العطور تتبدّل تسارعيًا (1....2...3..4.5) ثم الشبكة الكاملة. node v2/inspired.js
+   فلات تحريري: خلفية كحلي صلبة · قنينة مقصوصة (بلا توهّج الماركة) · اسم بكتلة زرقاء بقياس الحروف · انتقال = قطع على الكليك + دخول ناعم 32px يمين←يسار (بلا فواصل — «تكسر النظر») */
+const C=document.getElementById('cv'), X=C.getContext('2d'), FONT="'Al-Jazeera-Arabic'";
+const NAVY='#0E1524', ACC='#2E74E6', WHITE='#FFFFFF', MUT='rgba(255,255,255,0.72)', PURP='#6B4BC2';
+// [كود العيّنة, اسم العطر, الماركة, صورة] — الأسماء من كتالوج صاحب الشغل (ref/perfumes-catalog.md)
+const P=[
+ ['CARHER','212 VIP Men','Carolina Herrera','carolina-herrera-212-vip-men'],
+ ['Sharp Lady','Amor Amor','Cacharel','cacharel-amor-amor'],
+ ['TOMGER','Tommy','Tommy Hilfiger','tommy-hilfiger-tommy'],
+ ['PARNZO',"L'Eau par Kenzo",'Kenzo · Pour Femme','kenzo-leau-pour-femme'],
+ ['FLOENZO','Flower by Kenzo','Kenzo','kenzo-flower-original'],
+ ['GOLD DUST','Golden Dust','Sunnamusk','sunnamusk-golden-dust-elixir'],
+ ['POECOME','Poême','Lancôme','lancome-poeme'],
+ ['ROSTWO','Gucci Rush 2','Gucci','gucci-rush-2'],
+ ['NIGFLI','Nightflight','JOOP!','joop-nightflight'],
+ ['Armani','Armani Black Code','Giorgio Armani','armani-black-code'],
+];
+// الإيقاع: كل كرت أقصر من اللي قبله (×0.78) لحد أرضية 0.25 ث (صوت واحد/ربع ثانية) ← الشبكة
+// متزامن مع التعليق: يبدأ «عطور» 25.18 · الشبكة على «تختار العطر المناسب» 29.52 · تثبت لحد «ويا المراسيل» 33.12
+const D=[]; { let d=1.0; for(let i=0;i<P.length;i++){ D.push(Math.max(0.25,d)); d*=0.755; } }
+const T0=[]; { let t=0; D.forEach(d=>{T0.push(t); t+=d;}); window.T_GRID=t; }
+const GRID_HOLD=33.12-(25.18+D.reduce((a,b)=>a+b,0)), FPS=30; window.DUR=window.T_GRID+GRID_HOLD; window.N=Math.round(window.DUR*FPS);
+window.CUTS=T0.slice(1).concat([window.T_GRID]);  // لحظات الكليك (للصوت)
+const easeOut=u=>1-Math.pow(1-Math.min(1,Math.max(0,u)),3);
+const IMG={}; function load(k){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[k]=i;r();};i.onerror=()=>{console.error('img '+k);r();};i.src='../assets/img/inspired/'+k+'.png';});}
+
+function shelf(im,cx,base,mh,mw,s=1){ // ترتيب «رف»: كل القناني قاعدتها على نفس الخط ونفس الارتفاع (الأفقية بعرضها)
+  const k=Math.min(mh/im.height,mw/im.width)*s, w=im.width*k, h=im.height*k; X.drawImage(im,cx-w/2,base-h,w,h); }
+function txt(s,x,y,size,c,dir='rtl'){ X.font=`700 ${size}px ${FONT}`; X.fillStyle=c; X.direction=dir; X.textAlign='center'; X.textBaseline='middle'; X.fillText(s,x,y); }
+function label(s,x,y,size){ // كتلة زرقاء بقياس الحروف، النص بالوسط بالضبط
+  X.font=`700 ${size}px ${FONT}`; X.direction='ltr'; const w=X.measureText(s).width+size*0.9, h=size*1.45;
+  X.fillStyle=ACC; X.fillRect(x-w/2,y-h/2,w,h); txt(s,x,y+size*0.04,size,WHITE,'ltr'); }
+const BASE=880;  // خط قاعدة القنينة بالكرت
+function card(i,local){ // كرت واحد: الخلفية والنص ثابتين بمكانهم، يتبدّل المحتوى بس (بلا فواصل)
+  const p=P[i]; X.fillStyle=NAVY; X.fillRect(0,0,1080,1920); X.fillStyle=PURP; X.fillRect(0,0,1080,10);
+  const ent=i===0?1:easeOut(local/Math.min(0.14,0.5*D[i-1])), dx=(1-ent)*32;  // دخول ناعم 32px يمين←يسار مع الكليك
+  const z=1+0.03*Math.min(1,local/0.9);                                         // دفعة خفيفة من القاعدة لفوق، بلا ارتداد
+  X.save(); X.translate(dx,0);
+  if(IMG[p[3]]) shelf(IMG[p[3]],540,BASE,640,760,z);
+  X.restore();
+  txt('مستوحى من',540,952,46,MUT);
+  X.save(); X.translate(dx*0.5,0); label(p[1],540,1036,p[1].length>14?64:76); txt(p[2],540,1118,32,MUT,'ltr'); X.restore();
+}
+function grid(local){ // الشبكة 5×2: قواعد كل صف على خط واحد · ارتفاع موحّد · الأسماء على خط واحد · تدخل يمين←يسار
+  X.fillStyle=NAVY; X.fillRect(0,0,1080,1920); X.fillStyle=PURP; X.fillRect(0,0,1080,10);
+  txt('مستوحى من',540,150,54,WHITE);
+  X.fillStyle=ACC; X.font=`700 54px ${FONT}`; X.direction='rtl'; const tw=X.measureText('مستوحى من').width; X.fillRect(540-tw/2,196,tw,6); // خط بطول الجملة
+  const cw=200, gx=(1080-5*cw)/2, base=[590,1050];
+  P.forEach((p,i)=>{ const col=4-(i%5), row=Math.floor(i/5), x=gx+col*cw+cw/2, b=base[row];
+    const u=easeOut((local-i*0.035)/0.22); if(u<=0) return;
+    X.save(); X.globalAlpha=u; X.translate((1-u)*40,0);
+    if(IMG[p[3]]) shelf(IMG[p[3]],x,b,300,176);
+    let fs=30; X.direction='ltr'; do{ X.font=`700 ${fs}px ${FONT}`; }while(X.measureText(p[1]).width>cw-14 && --fs>18);
+    txt(p[1],x,b+40,fs,WHITE,'ltr'); txt(p[2].split(' · ')[0],x,b+76,22,MUT,'ltr');
+    X.restore(); });
+}
+function frameAt(t){
+  if(t>=window.T_GRID){ grid(t-window.T_GRID); return; }
+  let i=0; while(i+1<P.length && t>=T0[i+1]) i++; card(i,t-T0[i]);
+}
+window.draw=i=>{ frameAt(i/FPS); return C.toDataURL('image/jpeg',0.95); };
+window.READY=(async()=>{ await document.fonts.load(`700 40px ${FONT}`); await document.fonts.load(`700 40px ${FONT}`,'ABC'); await Promise.all(P.map(p=>load(p[3]))); return 1; })();
+</script></body></html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Al-Jazeera-Arabic';src:url('../../aljazeera-bold.ttf') format('truetype');font-weight:100 900;font-display:block;}
+html,body{margin:0;background:#000}canvas{display:block}
+</style></head><body>
+<canvas id="cv" width="1080" height="1920"></canvas>
+<script>
+/* أغلفة المراسيل — 4 زوايا جذب لاختبار A/B · باليت واحد (كحلي · أزرق · أبيض · حدّ بنفسجي) · خط الجزيرة */
+const C=document.getElementById('cv'), X=C.getContext('2d');
+const BG='#0E1524', ACC='#2E74E6', SC='#3A2378', SH='rgba(46,24,104,0.62)', FONT="'Al-Jazeera-Arabic'";
+const IMG={};
+function load(k,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[k]=i;r();};i.onerror=()=>{console.error('img fail '+src);r();};i.src=src;});}
+const lp=(a,b,k)=>a+(b-a)*k, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function rgba(h,a){h=h.replace('#','');const n=parseInt(h,16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
+function mix(h1,h2,k){const f=h=>{const n=parseInt(h.replace('#',''),16);return[n>>16&255,n>>8&255,n&255];};const a=f(h1),b=f(h2);return `rgb(${a.map((v,i)=>Math.round(v+(b[i]-v)*k)).join(',')})`;}
+function rrect(x,y,w,h,r){X.beginPath();X.moveTo(x+r,y);X.arcTo(x+w,y,x+w,y+h,r);X.arcTo(x+w,y+h,x,y+h,r);X.arcTo(x,y+h,x,y,r);X.arcTo(x,y,x+w,y,r);X.closePath();}
+function tw(s,size){X.save();X.font='900 '+size+'px '+FONT;X.direction='rtl';const v=X.measureText(s).width;X.restore();return v;}
+function txt(s,x,y,size,o){o=o||{}; if(o.fit){while(tw(s,size)>o.fit&&size>40)size-=4;}X.save();X.font='900 '+size+'px '+FONT;X.textAlign=o.al||'center';X.textBaseline='middle';X.direction='rtl';
+  X.shadowColor=SH;X.shadowBlur=o.sh||30;X.shadowOffsetY=8;
+  if(o.stroke!==0){X.lineJoin='round';X.lineWidth=o.stroke||Math.round(size*0.075);X.strokeStyle=SC;X.strokeText(s,x,y);X.shadowColor='transparent';}
+  X.fillStyle=o.c||'#FFFFFF';X.fillText(s,x,y);X.restore();}
+function pill(s,cx,cy,fs,fill,col,border){const w=tw(s,fs)+fs*1.5,h=fs*2.0;
+  X.save();X.shadowColor='rgba(0,0,0,0.45)';X.shadowBlur=30;X.shadowOffsetY=10;rrect(cx-w/2,cy-h/2,w,h,h/2);X.fillStyle=fill;X.fill();X.restore();
+  if(border){X.save();rrect(cx-w/2,cy-h/2,w,h,h/2);X.lineWidth=4;X.strokeStyle=border;X.stroke();X.restore();}
+  txt(s,cx,cy+3,fs,{c:col||'#FFFFFF',stroke:0,sh:0});return w;}
+function cover(img,fx,fy,k,ax,ay){const dw=img.width*k,dh=img.height*k;const dx=clamp(ax-fx*dw,1080-dw,0),dy=clamp(ay-fy*dh,1920-dh,0);X.drawImage(img,dx,dy,dw,dh);}
+function vgrad(stops){const g=X.createLinearGradient(0,0,0,1920);stops.forEach(s=>g.addColorStop(s[0],s[1]));X.fillStyle=g;X.fillRect(0,0,1080,1920);}
+function brand(y){ // اسم الشركة — نفس المكان والشكل بكل الأغلفة
+  txt('المراسيل',540,y,58,{stroke:5,sh:16}); X.fillStyle=ACC; rrect(540-70,y+44,140,7,4); X.fill();
+  txt('لتجارة المواد الأولية للمنظفات',540,y+86,30,{c:'rgba(255,255,255,0.85)',stroke:3,sh:10}); }
+const JOINF='بتثجحخسشصضطظعغفقكلمنهيئ';
+function kash(w,n){let o='';const pre=w.startsWith('ال')?2:0;for(let i=0;i<w.length;i++){o+=w[i];const a=w[i],b=w[i+1];if(i>=pre&&b&&JOINF.includes(a)&&/[ء-ي]/.test(b)&&!(a==='ل'&&'اأإآ'.includes(b)))o+='ـ'.repeat(n);}return o;}
+function hero(cx,cy,R,bagH,rot){const bag=IMG.bag;
+  const hg=X.createRadialGradient(cx,cy,R*0.6,cx,cy,R*1.7);hg.addColorStop(0,rgba(ACC,0.5));hg.addColorStop(1,rgba(ACC,0));X.fillStyle=hg;X.beginPath();X.arc(cx,cy,R*1.7,0,7);X.fill();
+  const g=X.createRadialGradient(cx-R*0.3,cy-R*0.35,R*0.1,cx,cy,R);g.addColorStop(0,mix(ACC,'#FFFFFF',0.3));g.addColorStop(0.55,ACC);g.addColorStop(1,mix(ACC,BG,0.45));
+  X.save();X.shadowColor=rgba(ACC,0.6);X.shadowBlur=80;X.fillStyle=g;X.beginPath();X.arc(cx,cy,R,0,7);X.fill();X.restore();
+  X.save();X.strokeStyle='rgba(255,255,255,0.35)';X.lineWidth=4;X.beginPath();X.arc(cx,cy,R-8,0,7);X.stroke();X.restore();
+  X.save();X.globalAlpha=0.6;X.strokeStyle='#FFFFFF';X.lineWidth=4;X.setLineDash([5,20]);X.beginPath();X.arc(cx,cy,R*1.14,0,7);X.stroke();X.restore();
+  X.save();X.globalAlpha=0.35;X.strokeStyle=ACC;X.lineWidth=3;X.beginPath();X.arc(cx,cy,R*1.3,0,7);X.stroke();X.restore();
+  const bw=bagH*bag.width/bag.height;
+  X.save();const sg=X.createRadialGradient(cx,cy+bagH*0.47,4,cx,cy+bagH*0.47,bw*0.55);sg.addColorStop(0,'rgba(0,0,0,0.7)');sg.addColorStop(1,'rgba(0,0,0,0)');X.fillStyle=sg;X.translate(cx,cy+bagH*0.47);X.scale(1,0.22);X.beginPath();X.arc(0,0,bw*0.55,0,7);X.fill();X.restore();
+  X.save();X.translate(cx,cy);X.rotate(rot);X.shadowColor='rgba(0,0,0,0.5)';X.shadowBlur=50;X.shadowOffsetY=24;X.drawImage(bag,-bw/2,-bagH/2,bw,bagH);
+  // لمعة ضوء على الكيس
+  X.globalCompositeOperation='source-atop';X.shadowColor='transparent';const lg=X.createLinearGradient(-bw*0.6,-bagH/2,bw*0.2,bagH*0.1);lg.addColorStop(0,'rgba(255,255,255,0)');lg.addColorStop(0.5,'rgba(255,255,255,0.28)');lg.addColorStop(1,'rgba(255,255,255,0)');X.fillStyle=lg;X.fillRect(-bw/2,-bagH/2,bw,bagH);X.restore();}
+function sparkles(n,seed,x0,y0,x1,y1){let s=seed;const r=()=>{s=(s*9301+49297)%233280;return s/233280;};
+  for(let i=0;i<n;i++){const x=lp(x0,x1,r()),y=lp(y0,y1,r()),rr=lp(1.5,4.5,r());X.save();X.globalAlpha=lp(0.25,0.8,r());X.fillStyle='#FFFFFF';X.shadowColor='#FFFFFF';X.shadowBlur=10;X.beginPath();X.arc(x,y,rr,0,7);X.fill();X.restore();}}
+
+function brandBig(y){ // شعار مكبّر ومرفوع (غلاف A)
+  txt('المراسيل',540,y,104,{stroke:7,sh:22}); X.fillStyle=ACC; rrect(540-110,y+70,220,9,5); X.fill();
+  txt('لتجارة المواد الأولية للمنظفات',540,y+124,40,{c:'rgba(255,255,255,0.9)',stroke:4,sh:12}); }
+/* A — المنتج البطل */
+function A(head){ head=head||'كوستك صودا'; vgrad([[0,'#0A0F1C'],[0.45,'#132340'],[1,'#0A0F1C']]);
+  X.save();X.globalAlpha=0.16;X.filter='blur(14px)';cover(IMG.pour,0.62,0.6,1.5,540,960);X.restore();
+  sparkles(46,7,60,560,1020,1400);
+  brandBig(362); txt(head,540,652,176,{fit:980});
+  hero(540,1040,330,720,-0.07);
+  let x=540; const items=['25 كغ','تركيز ⁦99%⁩','قشور'], ws=items.map(s=>tw(s,46)+46*1.5), tot=ws.reduce((a,b)=>a+b,0)+2*24; x=540+tot/2;
+  items.forEach((s,i)=>{const cx=x-ws[i]/2;pill(s,cx,1452,46,ACC);x-=ws[i]+24;});
+  txt('مادة أولية للمنظفات',540,1560,46,{c:'rgba(255,255,255,0.92)',stroke:4,sh:14}); }
+
+/* B — الرقم */
+function B(){ cover(IMG.pour,0.62,0.45,1.2,540,900);
+  vgrad([[0,rgba(BG,0.82)],[0.3,rgba(BG,0.55)],[0.62,rgba(BG,0.45)],[1,rgba(BG,0.9)]]);
+  brand(345); txt('كوستك صودا',540,520,150,{});
+  const cx=540,cy=960,R=290;
+  X.save();X.shadowColor='rgba(0,0,0,0.55)';X.shadowBlur=60;X.fillStyle=rgba(BG,0.82);X.beginPath();X.arc(cx,cy,R+60,0,7);X.fill();X.restore();
+  X.lineCap='round';X.lineWidth=36;X.strokeStyle='rgba(255,255,255,0.14)';X.beginPath();X.arc(cx,cy,R,0,7);X.stroke();
+  const a0=-Math.PI/2;X.save();X.shadowColor=rgba(ACC,1);X.shadowBlur=40;X.strokeStyle=ACC;X.beginPath();X.arc(cx,cy,R,a0,a0+Math.PI*2*0.99);X.stroke();X.restore();
+  const ea=a0+Math.PI*2*0.99;X.fillStyle='#FFFFFF';X.beginPath();X.arc(cx+R*Math.cos(ea),cy+R*Math.sin(ea),13,0,7);X.fill();
+  for(let i=0;i<60;i++){const an=a0+i/60*Math.PI*2,r1=R+42,r2=R+(i%5?50:58);X.strokeStyle='rgba(255,255,255,0.55)';X.lineWidth=3;X.beginPath();X.moveTo(cx+r1*Math.cos(an),cy+r1*Math.sin(an));X.lineTo(cx+r2*Math.cos(an),cy+r2*Math.sin(an));X.stroke();}
+  txt('تركيز',cx,cy-118,58,{c:'rgba(255,255,255,0.85)',stroke:4,sh:10});
+  X.save();X.font='900 230px '+FONT;X.textAlign='center';X.textBaseline='middle';X.direction='ltr';X.shadowColor=rgba(ACC,0.8);X.shadowBlur=40;X.fillStyle='#FFFFFF';X.fillText('99%',cx,cy+30);X.restore();
+  pill('نقاوة عالية جداً',540,1420,58,ACC);
+  txt('قشور · مادة أولية للمنظفات',540,1540,44,{c:'rgba(255,255,255,0.9)',stroke:4,sh:12}); }
+
+/* C — الفضول والخطر */
+function C_(){ cover(IMG.pour,0.70,0.36,1.62,540,900);
+  vgrad([[0,rgba(BG,0.9)],[0.28,rgba(BG,0.45)],[0.6,rgba(BG,0.55)],[1,rgba(BG,0.92)]]);
+  const y=300,h=150; X.fillStyle=rgba(BG,0.96);X.fillRect(0,y,1080,h);
+  X.save();X.beginPath();X.rect(0,y,200,h);X.clip();for(let x=-h-70;x<300;x+=70){X.fillStyle=ACC;X.beginPath();X.moveTo(x,y+h);X.lineTo(x+35,y+h);X.lineTo(x+35+h,y);X.lineTo(x+h,y);X.closePath();X.fill();}X.restore();
+  X.fillStyle=ACC;X.fillRect(1054,y,26,h); X.fillStyle='rgba(255,255,255,0.18)';X.fillRect(200,y,854,2);X.fillRect(200,y+h-2,854,2);
+  txt('تحذير',1010,y+h/2+4,92,{al:'right',stroke:0,sh:0});
+  const ix=1010-tw('تحذير',92)-70,iy=y+h/2+4;X.save();X.translate(ix,iy);X.strokeStyle='#FFFFFF';X.lineWidth=8;X.lineJoin='miter';X.beginPath();X.moveTo(0,-44);X.lineTo(50,40);X.lineTo(-50,40);X.closePath();X.stroke();X.fillStyle=ACC;X.fillRect(-5,-14,10,30);X.fillRect(-5,22,10,10);X.restore();
+  brand(560);
+  txt(kash('تحرق',3)+' إيدك',540,860,170,{fit:960});
+  txt('وتصنع',540,1060,120,{});
+  txt(kash('صابون',2)+' صلب!',540,1230,170,{c:ACC,fit:960});
+  pill('كوستك صودا',540,1440,54,rgba(BG,0.9),'#FFFFFF',ACC); }
+
+/* D — التعليمي (العملية) فوق لقطة الرافعة + بانر المراسيل الحقيقي */
+function D(){ X.drawImage(IMG.fork,0,0,1080,1920);
+  const g=X.createLinearGradient(0,0,0,1300);g.addColorStop(0,rgba(BG,0.92));g.addColorStop(0.45,rgba(BG,0.72));g.addColorStop(0.9,rgba(BG,0.35));g.addColorStop(1,rgba(BG,0));X.fillStyle=g;X.fillRect(0,0,1080,1300);
+  txt('كيف يصنع',540,420,120,{});
+  txt(kash('الصابون',2)+' الصلب؟',540,570,150,{c:ACC,fit:960});
+  const chip=(s,y,acc)=>{const fs=acc?64:54,w=tw(s,fs)+fs*1.6,h=fs*2.05;X.save();X.shadowColor=acc?rgba(ACC,0.8):'rgba(0,0,0,0.5)';X.shadowBlur=acc?50:30;X.shadowOffsetY=10;rrect(540-w/2,y-h/2,w,h,h/2);X.fillStyle=acc?ACC:rgba(BG,0.88);X.fill();X.restore();
+    if(!acc){X.save();rrect(540-w/2,y-h/2,w,h,h/2);X.lineWidth=3;X.strokeStyle='rgba(255,255,255,0.25)';X.stroke();X.restore();} txt(s,540,y+4,fs,{stroke:0,sh:0});};
+  chip('كوستك صودا',780,0); txt('+',540,875,96,{stroke:8});
+  chip('زيوت',970,0);
+  X.save();X.strokeStyle='#FFFFFF';X.fillStyle='#FFFFFF';X.lineWidth=12;X.lineCap='round';X.shadowColor=SH;X.shadowBlur=20;X.beginPath();X.moveTo(540,1050);X.lineTo(540,1105);X.stroke();X.beginPath();X.moveTo(540,1135);X.lineTo(512,1095);X.lineTo(568,1095);X.closePath();X.fill();X.restore();
+  chip('صابون صلب',1225,1); }
+
+const D_=[A,B,C_,D,()=>A('بطش 99')];
+window.draw=i=>{X.clearRect(0,0,1080,1920);X.save();D_[i]();X.restore();return C.toDataURL('image/png');};
+window.READY=Promise.all([document.fonts.load("900 100px 'Al-Jazeera-Arabic'",'عربي ـ 99%'),load('bag','../../assets/packshot_cut.png'),load('pour','../../assets/product.jpeg'),load('fork','bg_3.7.jpg')]).then(()=>document.fonts.ready);
+</script></body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Al-Jazeera-Arabic';src:url('../../aljazeera-bold.ttf') format('truetype');font-weight:100 900;font-display:block;}
+@font-face{font-family:'Al-Jazeera-Arabic';src:local('Arial Black'),local('Arial Bold');unicode-range:U+0041-005A,U+0061-007A;font-weight:100 900;font-display:block;}
+html,body{margin:0;background:#000}canvas{display:block}
+</style></head><body>
+<canvas id="cv" width="1080" height="1920"></canvas>
+<script>
+/* ═══ أغلفة «فورمالين كيمانول 37%» — لغة Promax (فلات تحريري) ═══
+   ⛔ لا توهّج ولا زجاج ولا دوائر · ⛔ لا خط تحت الشعار · كتل صلبة بزوايا حادة · باليت المراسيل + خط الجزيرة
+   منطقة آمنة: قصّ الشبكة 4:5 = y 285–1635 · الشعار ≥ 360 · العنوان ≥ 520 · هوامش ≥ 80
+   النص كله من كلامه («الفورمالين وصل · من مصنع كيمانول السعودي · تركيز 37% · جودة ممتازة · جليكانات 32 كيلو ونص»)
+   أو من الأصول الحقيقية (صورة الجليكان · شعار وجدول TDS · لقطات التصوير). */
+const C=document.getElementById('cv'), X=C.getContext('2d');
+const NAVY='#0E1524', INKD='#16213A', ACC='#2E74E6', ACCT='#4FA3FF', PURP='#6B4BC2', SC='#3A2378', SH='rgba(46,24,104,0.62)', FONT="'Al-Jazeera-Arabic'";
+const IMG={}; function load(k,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[k]=i;r();};i.onerror=()=>{console.error('img '+src);r();};i.src=src;});}
+const lp=(a,b,k)=>a+(b-a)*k, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function rgba(h,a){const n=parseInt(h.replace('#',''),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
+const ISO=s=>String(s).replace(/(\d[\d\-.]*\d%?|\d%?)/g,'⁦$1⁩');
+function tw(s,size){X.save();X.font='900 '+size+'px '+FONT;X.direction='rtl';const v=X.measureText(ISO(s)).width;X.restore();return v;}
+function fit(s,size,max){while(tw(s,size)>max&&size>40)size-=2;return size;}
+/* نص: بلا حدّ على الصفحة البيضاء · حدّ بنفسجي رفيع + ظل ناعم فوق الصور (نفس الكابشن) */
+function txt(s,x,y,size,o){o=o||{};s=ISO(s);X.save();X.font='900 '+size+'px '+FONT;X.textAlign=o.al||'center';X.textBaseline='middle';X.direction=o.ltr?'ltr':'rtl';
+  if(o.stroke){X.shadowColor=SH;X.shadowBlur=Math.round(size*0.2);X.shadowOffsetY=Math.round(size*0.05);X.lineJoin='round';X.lineWidth=Math.max(4,Math.round(size*0.085));X.strokeStyle=SC;X.strokeText(s,x,y);X.shadowColor='transparent';}
+  X.fillStyle=o.c||'#FFFFFF';X.fillText(s,x,y);X.restore();}
+/* لاتيني/أرقام موسّطة بحدود الحروف الفعلية */
+function ltrBox(s,cx,cy,fs,col){X.save();X.font='900 '+fs+'px '+FONT;X.direction='ltr';X.textAlign='left';X.textBaseline='alphabetic';
+  const m=X.measureText(s),w=m.actualBoundingBoxLeft+m.actualBoundingBoxRight,h=m.actualBoundingBoxAscent+m.actualBoundingBoxDescent;
+  X.fillStyle=col;X.fillText(s,cx-w/2+m.actualBoundingBoxLeft,cy+h/2-m.actualBoundingBoxDescent);X.restore();return [w,h];}
+function ltrSize(s,fs){X.save();X.font='900 '+fs+'px '+FONT;X.direction='ltr';const m=X.measureText(s);X.restore();return [m.actualBoundingBoxLeft+m.actualBoundingBoxRight,m.actualBoundingBoxAscent+m.actualBoundingBoxDescent];}
+const JOINF='بتثجحخسشصضطظعغفقكلمنهيئ';
+function kash(w,n){let o='';const pre=w.startsWith('ال')?2:0;const sl=[];for(let i=pre;i<w.length-1;i++){const a=w[i],b=w[i+1];if(JOINF.includes(a)&&/[ء-ي]/.test(b)&&!(a==='ل'&&'اأإآ'.includes(b)))sl.push(i);}
+  const S=sl.length>3?[sl[0],sl[Math.floor(sl.length/2)],sl[sl.length-1]]:sl;for(let i=0;i<w.length;i++){o+=w[i];if(S.includes(i))o+='ـ'.repeat(n);}return o;}
+function vgrad(st,y0,y1){const g=X.createLinearGradient(0,y0,0,y1);st.forEach(s=>g.addColorStop(s[0],s[1]));X.fillStyle=g;X.fillRect(0,y0,1080,y1-y0);}
+
+/* ── الخلفيات ── */
+function page(){ vgrad([[0,'#F9FBFF'],[1,'#EEF2FB']],0,1920);
+  for(let x=60;x<1080;x+=60){const maj=x%240===60;X.strokeStyle=rgba(maj?PURP:ACC,maj?0.16:0.08);X.lineWidth=maj?2:1;X.beginPath();X.moveTo(x,0);X.lineTo(x,1920);X.stroke();}
+  for(let y=60;y<1920;y+=60){const maj=y%240===60;X.strokeStyle=rgba(maj?PURP:ACC,maj?0.16:0.08);X.lineWidth=maj?2:1;X.beginPath();X.moveTo(0,y);X.lineTo(1080,y);X.stroke();} }
+function corners(y0,y1,c){X.strokeStyle=c||PURP;X.lineWidth=4;[[90,y0,1],[990,y0,-1],[90,y1,1],[990,y1,-1]].forEach(([x,y,s],i)=>{const dy=i<2?1:-1;X.beginPath();X.moveTo(x,y+36*dy);X.lineTo(x,y);X.lineTo(x+36*s,y);X.stroke();});}
+function navyBg(){ vgrad([[0,'#0A0F1C'],[0.5,'#132340'],[1,'#0A0F1C']],0,1920);
+  for(let x=60;x<1080;x+=60){X.strokeStyle='rgba(255,255,255,'+(x%240===60?0.07:0.035)+')';X.lineWidth=x%240===60?2:1;X.beginPath();X.moveTo(x,0);X.lineTo(x,1920);X.stroke();}
+  for(let y=60;y<1920;y+=60){X.strokeStyle='rgba(255,255,255,'+(y%240===60?0.07:0.035)+')';X.lineWidth=y%240===60?2:1;X.beginPath();X.moveTo(0,y);X.lineTo(1080,y);X.stroke();} }
+function photo(k,dark){ X.drawImage(IMG[k],0,0,1080,1920); vgrad([[0,rgba(NAVY,dark||0.78)],[0.45,rgba(NAVY,0.25)],[0.62,rgba(NAVY,0)]],0,1100); }   // البانر الحقيقي يبقى كما هو (بلا شعار إضافي)
+/* ── الهوية: هيدر الصفحة (بلا خط تحت الشعار) ── */
+function header(y,dark){ txt('المراسيل',540,y,96,{c:dark?'#FFFFFF':PURP}); txt('لتجارة المواد الأولية للمنظفات',540,y+80,34,{c:dark?ACCT:ACC}); }
+function brandSmall(y){ txt('المراسيل',540,y,52,{c:PURP}); txt('لتجارة المواد الأولية للمنظفات',540,y+46,24,{c:ACC}); }
+/* ── مكوّنات فلات ── */
+function bar(s,xR,y,fs,fill,col){ const w=tw(s,fs)+fs*1.1, h=Math.round(fs*1.42); X.fillStyle=fill;X.fillRect(xR-w,y,w,h); txt(s,xR-fs*0.55,y+h/2+fs*0.05,fs,{al:'right',c:col||'#FFFFFF'}); return [w,h]; }
+function barC(s,cx,y,fs,fill,col){ const w=tw(s,fs)+fs*1.1; return bar(s,cx+w/2,y,fs,fill,col); }
+function numBlock(s,x,y,fs,fill,edge){ const [w,h]=ltrSize(s,fs), bw=w+fs*0.7, bh=h+fs*0.62; X.fillStyle=fill||NAVY;X.fillRect(x,y,bw,bh); X.fillStyle=edge||ACC;X.fillRect(x,y,Math.max(8,fs*0.07),bh); ltrBox(s,x+bw/2+fs*0.035,y+bh/2,fs,'#FFFFFF'); return [bw,bh]; }
+function arrived(xR,y,s,fs){ const h=Math.round(fs*1.66), sq=h, w=tw(s,fs)+fs*1.25; X.fillStyle=NAVY;X.fillRect(xR-sq,y,sq,h);
+  const cx=xR-sq/2, cy=y+h/2, k=h/120; X.strokeStyle='#FFFFFF';X.lineWidth=7*k;X.lineJoin='miter';X.lineCap='square';X.strokeRect(cx-26*k,cy-4*k,52*k,34*k);X.beginPath();X.moveTo(cx,cy-38*k);X.lineTo(cx,cy+8*k);X.moveTo(cx-14*k,cy-6*k);X.lineTo(cx,cy+8*k);X.lineTo(cx+14*k,cy-6*k);X.stroke();
+  const x=xR-sq-w; X.fillStyle='#FFFFFF';X.fillRect(x,y,w,h);X.fillStyle=ACC;X.fillRect(x,y+h-8*k,w,8*k); txt(s,xR-sq-fs*0.62,y+h/2+fs*0.05,fs,{al:'right',c:NAVY}); return [w+sq,h]; }
+function can(cx,yTop,H){ const im=IMG.can, W=H*im.width/im.height; X.save();X.fillStyle='rgba(14,21,36,0.14)';X.beginPath();X.ellipse(cx,yTop+H-6,W*0.42,H*0.022,0,0,7);X.fill();X.restore(); X.drawImage(im,cx-W/2,yTop,W,H); return [cx-W/2,yTop,W,H]; }
+function chips(items,cy,fs,dark){ const g=20, ws=items.map(s=>tw(s,fs)+fs*1.2), tot=ws.reduce((a,b)=>a+b,0)+g*(items.length-1); let x=540+tot/2; const h=Math.round(fs*1.9);
+  items.forEach((s,i)=>{ X.fillStyle=dark?'#FFFFFF':NAVY; X.fillRect(x-ws[i],cy-h/2,ws[i],h); X.fillStyle=ACC; X.fillRect(x-ws[i],cy+h/2-6,ws[i],6); txt(s,x-ws[i]/2,cy+fs*0.05,fs,{c:dark?NAVY:'#FFFFFF'}); x-=ws[i]+g; }); }
+function underline(cx,y,w,c){ X.fillStyle=c||ACC; X.fillRect(cx-w/2,y,w,10); }
+function tds(x,y,w,dark){ const im=IMG.tds, h=w*im.height/im.width, pad=22;
+  X.fillStyle='#FFFFFF';X.fillRect(x-pad,y-pad,w+2*pad,h+2*pad); X.strokeStyle=rgba(PURP,0.35);X.lineWidth=3;X.strokeRect(x-pad,y-pad,w+2*pad,h+2*pad); X.fillStyle=ACC;X.fillRect(x-pad,y-pad,w+2*pad,8);
+  X.drawImage(im,x,y,w,h); const ry=y+h*208/510, rh=h*71/510; X.fillStyle=rgba(ACC,0.16);X.fillRect(x+w*17/1830,ry,w*1772/1830,rh); X.fillStyle=ACC;X.fillRect(x+w*17/1830,ry+rh-5,w*1772/1830,5);
+  txt('CHEMANOL  TDS',x+w+pad,y+h+pad+30,22,{ltr:1,al:'right',c:dark?'rgba(255,255,255,0.6)':rgba(INKD,0.55)}); return h+2*pad; }
+
+/* دائرة المنتج بأسلوب PIP الكوستك: دائرة زرقاء متدرّجة + حلقة داخلية + حلقة منقّطة + هالة خفيفة */
+function heroCircle(cx,cy,R){ const hg=X.createRadialGradient(cx,cy,R*0.7,cx,cy,R*1.5); hg.addColorStop(0,rgba(ACC,0.35)); hg.addColorStop(1,rgba(ACC,0)); X.fillStyle=hg; X.beginPath(); X.arc(cx,cy,R*1.5,0,7); X.fill();
+  const g=X.createRadialGradient(cx-R*0.3,cy-R*0.35,R*0.1,cx,cy,R); g.addColorStop(0,'#5B93EE'); g.addColorStop(0.55,ACC); g.addColorStop(1,'#1F4C9C');
+  X.fillStyle=g; X.beginPath(); X.arc(cx,cy,R,0,7); X.fill();
+  X.strokeStyle='rgba(255,255,255,0.32)'; X.lineWidth=3; X.beginPath(); X.arc(cx,cy,R-8,0,7); X.stroke();
+  X.save(); X.globalAlpha=0.6; X.strokeStyle='#FFFFFF'; X.lineWidth=4; X.lineCap='round'; X.setLineDash([2,16]); X.beginPath(); X.arc(cx,cy,R*1.14,0,7); X.stroke(); X.restore(); }
+/* شارة بخط إشارة لموضع على الملصق */
+function callout(s,pt,pc,side){ const fs=44, w=tw(s,fs)+fs*1.4, h=Math.round(fs*1.9), ex=side==='r'?pc[0]+w/2-10:pc[0]-w/2+10;
+  X.strokeStyle='rgba(255,255,255,0.85)'; X.lineWidth=3; X.beginPath(); X.moveTo(ex,pc[1]); X.lineTo(pt[0],pt[1]); X.stroke();
+  X.fillStyle=ACC; X.strokeStyle='#FFFFFF'; X.lineWidth=4; X.beginPath(); X.arc(pt[0],pt[1],11,0,7); X.fill(); X.stroke();
+  X.fillStyle=ACC; X.beginPath(); X.roundRect(pc[0]-w/2,pc[1]-h/2,w,h,h/2); X.fill(); txt(s,pc[0],pc[1]+fs*0.05,fs,{c:'#FFFFFF'}); }
+/* ═══ الأغلفة العشرة — كل واحد زاوية جذب مختلفة ═══ */
+const COV=[
+ ['المنتج-وصل', ()=>{ page(); corners(330,1600); header(400);
+   txt('الفورمالين',540,640,168,{c:INKD}); txt('وصل!',540,810,168,{c:ACC});
+   const [x,y,W,H]=can(430,900,640); numBlock('37%',x+W-40,1010,120); chips(['كيمانول السعودي','32.5 كيلو'],1565,46); }],
+ ['الرقم-37', ()=>{ page(); corners(330,1600); header(400);
+   bar('تركيز',890,560,92,ACC); const [w,h]=ltrSize('37%',400); ltrBox('37%',540,900,400,NAVY); underline(540,900+h/2+50,w,ACC);
+   txt('فورمالين بجودة ممتازة',540,1200,74,{c:INKD}); can(540,1270,330); }],
+ ['المصدر-كيمانول', ()=>{ page(); corners(330,1600); header(400);
+   txt('بس هالمرة',540,610,84,{c:INKD}); txt('من مصنع',540,720,84,{c:rgba(INKD,0.8)});
+   const im=IMG.logo, w=820, h=w*im.height/im.width; X.drawImage(im,540-w/2,800,w,h); txt('السعودي',540,800+h+110,150,{c:PURP});
+   chips(['فورمالين 37%','جليكانات 32.5 كيلو'],1560,46); }],
+ ['المستودع-وصل', ()=>{ photo('row',0.85);
+   txt('الفورمالين',540,600,170,{stroke:1}); txt('وصل!',540,790,170,{c:ACCT,stroke:1});
+   chips(['كيمانول السعودي','تركيز 37%'],960,50,true); }],
+ ['الملصق-دليل', ()=>{ photo('label',0.55);
+   const [w1,h1]=bar('تركيز',960,850,96,ACC); const [bw]=ltrSize('37%',150); numBlock('37%',960-w1-bw-105+40,850+h1-24,150); }],   // الكروت تحت الملصق — «37 %» المطبوع يبقى ظاهر
+ ['الوزن-32.5', ()=>{ page(); corners(330,1600); header(400);
+   txt(kash('جليكانات',2),540,640,fit(kash('جليكانات',2),150,880),{c:ACC}); txt('فورمالين 37%',540,790,70,{c:INKD});
+   const [x,y,W,H]=can(370,880,680); const lab=[x+W*0.62,y+H*0.36], bx=660, by=1000, [bw,bh]=numBlock('32.5',bx,by,140);
+   X.fillStyle=ACC;X.fillRect(bx,by+bh,bw,100); txt('كيلو',bx+bw/2,by+bh+52,64,{c:'#FFFFFF'});
+   X.strokeStyle='#FFFFFF';X.lineWidth=12;X.beginPath();X.moveTo(bx,by+bh/2);X.lineTo(lab[0],lab[1]);X.stroke(); X.strokeStyle=NAVY;X.lineWidth=5;X.beginPath();X.moveTo(bx,by+bh/2);X.lineTo(lab[0],lab[1]);X.stroke();
+   X.fillStyle=ACC;X.strokeStyle='#FFFFFF';X.lineWidth=4;X.beginPath();X.arc(lab[0],lab[1],12,0,7);X.fill();X.stroke(); }],
+ ['الجودة-TDS', ()=>{ page(); corners(330,1600); header(400);
+   txt('جودة',540,620,110,{c:INKD}); txt(kash('ممتازة',2),540,800,fit(kash('ممتازة',2),210,880),{c:ACC});
+   tds(70,980,940); chips(['فورمالين 37%','كيمانول السعودي'],1530,46); }],
+ ['داكن-المنتج', ()=>{ navyBg(); header(400,1);
+   txt('فورمالين',540,655,150,{c:'#FFFFFF'}); ltrBox('37%',540,818,165,ACCT);
+   const cx=540, cy=1200, R=290; heroCircle(cx,cy,R);                                  // دائرة المنتج (نفس أسلوب كوستك — طلب صاحب الشغل)
+   const [x,y,W,H]=can(cx,cy-300,600);
+   callout('كيمانول',[x+W*0.335,y+H*0.515],[215,1040],'r');                              // يشير لشعار كيمانول على الملصق
+   callout('32.5 كيلو',[x+W*0.645,y+H*0.448],[860,1328],'l');                            // يشير لسطر 32.5 KG.
+   bar('من مصنع كيمانول السعودي',540+(tw('من مصنع كيمانول السعودي',46)+46*1.1)/2,1540,46,'#FFFFFF',NAVY); }],
+ ['الحركة-هوك', ()=>{ photo('man',0.7);
+   X.save(); X.translate(540,560); X.scale(1.55,1.55); X.translate(-540,-560);
+   const xR=540+ (tw('الفورمالين',88)+96)/2; bar('الفورمالين',xR,470,88,ACC); X.fillStyle='#FFFFFF';X.fillRect(xR-(tw('الفورمالين',88)+96),470+125+10,tw('الفورمالين',88)+96,6);
+   arrived(xR,470+124+40,'وصل',72); X.restore(); }],
+ ['تقسيم-صورة-وصفحة', ()=>{ page();
+   X.save(); X.beginPath(); X.moveTo(0,0); X.lineTo(1080,0); X.lineTo(1080,1020); X.lineTo(0,940); X.closePath(); X.clip(); X.drawImage(IMG.row,0,-120,1080,1920); vgrad([[0,rgba(NAVY,0.75)],[0.6,rgba(NAVY,0.1)]],0,1020); X.restore();
+   X.fillStyle=ACC; X.beginPath(); X.moveTo(0,940); X.lineTo(1080,1020); X.lineTo(1080,1032); X.lineTo(0,952); X.closePath(); X.fill();
+   txt('الفورمالين',540,560,160,{stroke:1}); txt('وصل!',540,740,160,{c:ACCT,stroke:1});
+   can(300,1060,500); txt('تركيز',740,1170,70,{c:INKD}); const [w,h]=ltrSize('37%',150); ltrBox('37%',740,1310,150,ACC);
+   txt('جليكانات 32.5 كيلو',740,1450,46,{c:INKD}); brandSmall(1570); }],
+];
+window.N=COV.length; window.NAMES=COV.map(c=>c[0]);
+window.draw=i=>{ X.clearRect(0,0,1080,1920); X.save(); COV[i][1](); X.restore(); return C.toDataURL('image/png'); };
+window.READY=Promise.all([document.fonts.load("900 100px 'Al-Jazeera-Arabic'",'عربي ـ 37% N'),
+  load('can','../../assets/img/can.png'),load('logo','../../assets/img/chemanol_logo.png'),load('tds','../../assets/img/tds_spec.png'),
+  load('man','f_1.0.jpg'),load('row','f_3.0.jpg'),load('label','f_8.3.jpg')]).then(()=>document.fonts.ready);
+</script></body></html>

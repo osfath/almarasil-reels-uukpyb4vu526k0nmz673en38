@@ -1,0 +1,40 @@
+[Script Info]
+Title: Al-Marasil - Caustic Soda
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Main,Al-Jazeera-Arabic,80,&H00FFFFFF,&H000000FF,&H0078233A,&H6068182E,-1,0,0,0,100,100,0,0,1,3,4,2,70,70,770,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+
+Dialogue: 0,0:00:00.00,0:00:02.10,Main,,0,0,0,,إللي يسوق منتجك من أول نظرة
+Dialogue: 0,0:00:02.10,0:00:02.98,Main,,0,0,0,,هو {\c&H00E6742E}اللون{\c&H00FFFFFF}
+Dialogue: 0,0:00:02.98,0:00:04.96,Main,,0,0,0,,لأن مهما كانت جودة المنتج
+Dialogue: 0,0:00:04.96,0:00:06.14,Main,,0,0,0,,إذا بهت لونه
+Dialogue: 0,0:00:06.14,0:00:06.98,Main,,0,0,0,,أو تعكّر
+Dialogue: 0,0:00:06.98,0:00:09.42,Main,,0,0,0,,راح يفقد قيمته التسويقية
+Dialogue: 0,0:00:09.42,0:00:10.50,Main,,0,0,0,,وهنا {\c&H00E6742E}المراسيل{\c&H00FFFFFF}
+Dialogue: 0,0:00:10.50,0:00:11.68,Main,,0,0,0,,وفرت لك الحل
+Dialogue: 0,0:00:11.68,0:00:12.44,Main,,0,0,0,,مع أصباغ
+Dialogue: 0,0:00:12.44,0:00:14.34,Main,,0,0,0,,جولف كيميكالز الصناعية
+Dialogue: 0,0:00:14.34,0:00:15.64,Main,,0,0,0,,أصباغ {\c&H00E6742E}مركزة{\c&H00FFFFFF}
+Dialogue: 0,0:00:15.64,0:00:17.10,Main,,0,0,0,,ومخصصة للمنظفات
+Dialogue: 0,0:00:17.10,0:00:18.56,Main,,0,0,0,,بأكثر من {\c&H00E6742E}عشر{\c&H00FFFFFF} أنواع
+Dialogue: 0,0:00:18.56,0:00:19.70,Main,,0,0,0,,ودرجات لونية
+Dialogue: 0,0:00:19.70,0:00:21.30,Main,,0,0,0,,من الألوان {\c&H00E6742E}الشفافة{\c&H00FFFFFF}
+Dialogue: 0,0:00:21.30,0:00:23.12,Main,,0,0,0,,إلى الدرجات {\c&H00E6742E}الفسفورية{\c&H00FFFFFF}
+Dialogue: 0,0:00:23.12,0:00:24.08,Main,,0,0,0,,حتى تختار {\c&H00E6742E}اللون{\c&H00FFFFFF}
+Dialogue: 0,0:00:24.08,0:00:25.68,Main,,0,0,0,,المناسب لهوية منتجك
+Dialogue: 0,0:00:25.68,0:00:26.74,Main,,0,0,0,,لون {\c&H00E6742E}أوضح{\c&H00FFFFFF}
+Dialogue: 0,0:00:26.74,0:00:27.74,Main,,0,0,0,,مظهر {\c&H00E6742E}أجمل{\c&H00FFFFFF}
+Dialogue: 0,0:00:27.74,0:00:29.54,Main,,0,0,0,,ومنتج يلفت من أول نظرة
+Dialogue: 0,0:00:29.54,0:00:30.92,Main,,0,0,0,,اختار صبغك {\c&H00E6742E}صح{\c&H00FFFFFF}
+Dialogue: 0,0:00:30.92,0:00:33.38,Main,,0,0,0,,لأن اللي يسوق منتجك من أول نظرة
+Dialogue: 0,0:00:33.38,0:00:33.97,Main,,0,0,0,,هو {\c&H00E6742E}اللون{\c&H00FFFFFF}

@@ -1,0 +1,20 @@
+{
+  "bg": "#0E1524",
+  "ink": "#F5F7FA",
+  "acc": "#2E74E6",
+  "clay": "#6B4BC2",
+  "mut": "#9AA6B8",
+  "font": "Al-Jazeera-Arabic",
+  "handle": "المراسيل",
+  "grade": false,
+  "pace": "calm",
+  "badgeUntil": 0,
+  "capStyle": "shadow",
+  "faceAnchor": 0.3,
+  "grid": false,
+  "warn": "#F2B33D",
+  "stroke": "#3A2378",
+  "strokeShadow": "rgba(46,24,104,0.62)",
+  "accText": "#4FA3FF",
+  "strokeHot": "#0B1222"
+}

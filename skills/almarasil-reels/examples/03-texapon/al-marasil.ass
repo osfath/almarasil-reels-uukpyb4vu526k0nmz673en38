@@ -1,0 +1,38 @@
+[Script Info]
+Title: Al-Marasil - Caustic Soda
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1080
+PlayResY: 1920
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Main,Al-Jazeera-Arabic,80,&H00FFFFFF,&H000000FF,&H0078233A,&H6068182E,-1,0,0,0,100,100,0,0,1,3,4,2,70,70,770,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+
+Dialogue: 0,0:00:00.17,0:00:02.57,Main,,0,0,0,,أول من صنع {\c&H00E6742E}التكسابون{\c&H00FFFFFF}
+Dialogue: 0,0:00:02.57,0:00:04.17,Main,,0,0,0,,وسمّاه بهذا الاسم
+Dialogue: 0,0:00:04.17,0:00:06.25,Main,,0,0,0,,شركة {\c&H00E6742E}باسف{\c&H00FFFFFF} الألمانية
+Dialogue: 0,0:00:06.25,0:00:08.55,Main,,0,0,0,,تكسابون {\c&H00E6742E}N70{\c&H00FFFFFF}
+Dialogue: 0,0:00:08.55,0:00:09.51,Main,,0,0,0,,وصلنا اليوم
+Dialogue: 0,0:00:09.51,0:00:10.51,Main,,0,0,0,,لشركة {\c&H00E6742E}المراسيل{\c&H00FFFFFF}
+Dialogue: 0,0:00:10.51,0:00:11.43,Main,,0,0,0,,المنتج رح ينطيك
+Dialogue: 0,0:00:11.43,0:00:12.39,Main,,0,0,0,,أداء ممتاز في
+Dialogue: 0,0:00:12.39,0:00:12.97,Main,,0,0,0,,{\c&H00E6742E}الرغوة{\c&H00FFFFFF}
+Dialogue: 0,0:00:12.97,0:00:13.69,Main,,0,0,0,,{\c&H00E6742E}والتنظيف{\c&H00FFFFFF}
+Dialogue: 0,0:00:13.69,0:00:14.65,Main,,0,0,0,,{\c&H00E6742E}والذوبانية{\c&H00FFFFFF}
+Dialogue: 0,0:00:14.65,0:00:15.75,Main,,0,0,0,,{\c&H00E6742E}واللزوجة{\c&H00FFFFFF}
+Dialogue: 0,0:00:15.75,0:00:16.39,Main,,0,0,0,,وأهم شي
+Dialogue: 0,0:00:16.39,0:00:17.01,Main,,0,0,0,,{\c&H00E6742E}التوافق{\c&H00FFFFFF}
+Dialogue: 0,0:00:17.01,0:00:18.47,Main,,0,0,0,,مع مكونات التركيبة
+Dialogue: 0,0:00:18.47,0:00:19.95,Main,,0,0,0,,لأن السلاسل الكحولية
+Dialogue: 0,0:00:19.95,0:00:21.21,Main,,0,0,0,,اللي بالتكسابون عليها
+Dialogue: 0,0:00:21.21,0:00:21.91,Main,,0,0,0,,{\c&H00E6742E}جزيئتين{\c&H00FFFFFF}
+Dialogue: 0,0:00:21.91,0:00:23.51,Main,,0,0,0,,من الإيثيلين أوكسايد
+Dialogue: 0,0:00:23.51,0:00:25.25,Main,,0,0,0,,عنوانّا {\c&H00E6742E}بالموصل{\c&H00FFFFFF}
+Dialogue: 0,0:00:25.25,0:00:26.51,Main,,0,0,0,,شارع {\c&H00E6742E}السايلو{\c&H00FFFFFF}
+Dialogue: 0,0:00:26.51,0:00:28.46,Main,,0,0,0,,قرب ورش الألمنيوم والبلاستيك

@@ -1,0 +1,268 @@
+{
+ "rules": [
+  "الانتقال ياخذ لحظته: ولا صوت ثاني خلال ±0.5 ث",
+  "ولا صوتين أقرب من 0.5 ث",
+  "الأجراس لقائمة وحدة بالإعلان (−24)",
+  "لا Pop لكل كلمة — tick_soft أو صمت",
+  "الكشيدة صوتها بطول المطّ نفسه",
+  "الأوترو تكة وحدة"
+ ],
+ "sounds": [
+  {
+   "name": "kashida",
+   "file": "kit/sfx/wav/kashida.wav",
+   "dur": 0.42,
+   "peak_dbfs": -12,
+   "cat": "كلمات",
+   "use": "مطّ الكشيدة — يبدأ عند t0 لـkStretch ويخلص مع اكتمال المطّ (0.42 ث)"
+  },
+  {
+   "name": "kashida_short",
+   "file": "kit/sfx/wav/kashida_short.wav",
+   "dur": 0.3,
+   "peak_dbfs": -12,
+   "cat": "كلمات",
+   "use": "مطّ قصير (dur 0.30)"
+  },
+  {
+   "name": "kashida_long",
+   "file": "kit/sfx/wav/kashida_long.wav",
+   "dur": 0.6,
+   "peak_dbfs": -13,
+   "cat": "كلمات",
+   "use": "مطّ طويل لكلمة البطل (dur 0.60)"
+  },
+  {
+   "name": "kashida_air",
+   "file": "kit/sfx/wav/kashida_air.wav",
+   "dur": 0.4,
+   "peak_dbfs": -16,
+   "cat": "كلمات",
+   "use": "نسخة هوائية فوق كلام كثيف"
+  },
+  {
+   "name": "slam",
+   "file": "kit/sfx/wav/slam.wav",
+   "dur": 0.3,
+   "peak_dbfs": -9,
+   "cat": "كلمات",
+   "use": "kSlam — عند t0"
+  },
+  {
+   "name": "mask_rise",
+   "file": "kit/sfx/wav/mask_rise.wav",
+   "dur": 0.3,
+   "peak_dbfs": -15,
+   "cat": "كلمات",
+   "use": "kMask — يبدأ قبل t0 بـ0.05"
+  },
+  {
+   "name": "swap_flick",
+   "file": "kit/sfx/wav/swap_flick.wav",
+   "dur": 0.275,
+   "peak_dbfs": -14,
+   "cat": "كلمات",
+   "use": "kSwap — مركزه عند t0+0.17"
+  },
+  {
+   "name": "marker",
+   "file": "kit/sfx/wav/marker.wav",
+   "dur": 0.32,
+   "peak_dbfs": -16,
+   "cat": "كلمات",
+   "use": "kMarker — عند t0 (مدة المسح 0.32)"
+  },
+  {
+   "name": "pop_soft",
+   "file": "kit/sfx/wav/pop_soft.wav",
+   "dur": 0.14,
+   "peak_dbfs": -16,
+   "cat": "كلمات",
+   "use": "ظهور شارة صغيرة"
+  },
+  {
+   "name": "tick_soft",
+   "file": "kit/sfx/wav/tick_soft.wav",
+   "dur": 0.04,
+   "peak_dbfs": -16,
+   "cat": "كلمات",
+   "use": "شريحة/عنصر ثانوي — بدل Pop"
+  },
+  {
+   "name": "count_ticks",
+   "file": "kit/sfx/wav/count_ticks.wav",
+   "dur": 0.55,
+   "peak_dbfs": -14,
+   "cat": "كلمات",
+   "use": "kCount — بطول العدّ"
+  },
+  {
+   "name": "typing_1s",
+   "file": "kit/sfx/wav/typing_1s.wav",
+   "dur": 1.05,
+   "peak_dbfs": -16,
+   "cat": "كتابة",
+   "use": "شاشة الكتابة — قصّه بطول السطر (t0→t1)"
+  },
+  {
+   "name": "typing_2s",
+   "file": "kit/sfx/wav/typing_2s.wav",
+   "dur": 2.05,
+   "peak_dbfs": -16,
+   "cat": "كتابة",
+   "use": "سطر طويل"
+  },
+  {
+   "name": "key",
+   "file": "kit/sfx/wav/key.wav",
+   "dur": 0.06,
+   "peak_dbfs": -16,
+   "cat": "كتابة",
+   "use": "حرف مفرد"
+  },
+  {
+   "name": "caret",
+   "file": "kit/sfx/wav/caret.wav",
+   "dur": 0.05,
+   "peak_dbfs": -20,
+   "cat": "كتابة",
+   "use": "ظهور المؤشر/بداية سطر"
+  },
+  {
+   "name": "type_return",
+   "file": "kit/sfx/wav/type_return.wav",
+   "dur": 0.3,
+   "peak_dbfs": -16,
+   "cat": "كتابة",
+   "use": "نهاية سطر قبل اللي بعده"
+  },
+  {
+   "name": "whip_r",
+   "file": "kit/sfx/wav/whip_r.wav",
+   "dur": 0.3,
+   "peak_dbfs": -6,
+   "cat": "انتقال",
+   "use": "Whip يمين — مركزه عند القطع"
+  },
+  {
+   "name": "whip_l",
+   "file": "kit/sfx/wav/whip_l.wav",
+   "dur": 0.3,
+   "peak_dbfs": -6,
+   "cat": "انتقال",
+   "use": "Whip يسار"
+  },
+  {
+   "name": "zoom_through",
+   "file": "kit/sfx/wav/zoom_through.wav",
+   "dur": 0.34,
+   "peak_dbfs": -7,
+   "cat": "انتقال",
+   "use": "زوم يخترق (يخلص عند القطع)"
+  },
+  {
+   "name": "push_up",
+   "file": "kit/sfx/wav/push_up.wav",
+   "dur": 0.5,
+   "peak_dbfs": -6,
+   "cat": "انتقال",
+   "use": "الصفحة تدفع الفيديو لفوق"
+  },
+  {
+   "name": "slide_left",
+   "file": "kit/sfx/wav/slide_left.wav",
+   "dur": 0.45,
+   "peak_dbfs": -6,
+   "cat": "انتقال",
+   "use": "الصفحة تنسحب يسار"
+  },
+  {
+   "name": "slide_right",
+   "file": "kit/sfx/wav/slide_right.wav",
+   "dur": 0.45,
+   "peak_dbfs": -6,
+   "cat": "انتقال",
+   "use": "دخول من اليسار"
+  },
+  {
+   "name": "wipe",
+   "file": "kit/sfx/wav/wipe.wav",
+   "dur": 0.5,
+   "peak_dbfs": -6,
+   "cat": "انتقال",
+   "use": "مسح الصفحة المائل"
+  },
+  {
+   "name": "natural_wipe",
+   "file": "kit/sfx/wav/natural_wipe.wav",
+   "dur": 0.6,
+   "peak_dbfs": -9,
+   "cat": "انتقال",
+   "use": "الانتقال الطبيعي بلقطة A3 (غطاء الجرّة يعبر)"
+  },
+  {
+   "name": "hit_sub",
+   "file": "kit/sfx/wav/hit_sub.wav",
+   "dur": 0.9,
+   "peak_dbfs": -6,
+   "cat": "ضربة",
+   "use": "بنش/لحظة مهمة (طرقة تنسمع بالجوال)"
+  },
+  {
+   "name": "boom_sub",
+   "file": "kit/sfx/wav/boom_sub.wav",
+   "dur": 1.9,
+   "peak_dbfs": -5,
+   "cat": "ضربة",
+   "use": "افتتاح الهوك"
+  },
+  {
+   "name": "riser",
+   "file": "kit/sfx/wav/riser.wav",
+   "dur": 0.6,
+   "peak_dbfs": -14,
+   "cat": "ضربة",
+   "use": "تمهيد قبل كشف المنتج (يخلص عند الكشف)"
+  },
+  {
+   "name": "ting_C",
+   "file": "kit/sfx/wav/ting_C.wav",
+   "dur": 0.9,
+   "peak_dbfs": -24,
+   "cat": "جرس",
+   "use": "سلّم تعداد — قائمة وحدة بالإعلان بس"
+  },
+  {
+   "name": "ting_D",
+   "file": "kit/sfx/wav/ting_D.wav",
+   "dur": 0.9,
+   "peak_dbfs": -24,
+   "cat": "جرس",
+   "use": ""
+  },
+  {
+   "name": "ting_E",
+   "file": "kit/sfx/wav/ting_E.wav",
+   "dur": 0.9,
+   "peak_dbfs": -24,
+   "cat": "جرس",
+   "use": ""
+  },
+  {
+   "name": "ting_G",
+   "file": "kit/sfx/wav/ting_G.wav",
+   "dur": 0.9,
+   "peak_dbfs": -24,
+   "cat": "جرس",
+   "use": ""
+  },
+  {
+   "name": "outro_tick",
+   "file": "kit/sfx/wav/outro_tick.wav",
+   "dur": 0.04,
+   "peak_dbfs": -8,
+   "cat": "ضربة",
+   "use": "الأوترو: تكة وحدة بس"
+  }
+ ]
+}

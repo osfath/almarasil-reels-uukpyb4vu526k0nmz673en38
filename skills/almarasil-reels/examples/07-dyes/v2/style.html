@@ -1,0 +1,36 @@
+<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="utf-8">
+<style>@font-face{font-family:'Al-Jazeera-Arabic';src:url('../aljazeera-bold.ttf') format('truetype');font-weight:100 900;font-display:block;}
+html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="cv" width="1080" height="1920"></canvas>
+<script>
+/* لقطة تجريبية: الصفحة البيضاء (Promax) فوق البانر الحقيقي */
+const C=document.getElementById('cv'), X=C.getContext('2d');
+const NAVY='#0E1524', BLUE='#2E74E6', PURP='#6B4BC2', INK='#16213A', FONT="'Al-Jazeera-Arabic'";
+const IMG={}; function load(k,s){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[k]=i;r();};i.onerror=r;i.src=s;});}
+function rgba(h,a){const n=parseInt(h.replace('#',''),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
+function rr(x,y,w,h,r){X.beginPath();X.moveTo(x+r,y);X.arcTo(x+w,y,x+w,y+h,r);X.arcTo(x+w,y+h,x,y+h,r);X.arcTo(x,y+h,x,y,r);X.arcTo(x,y,x+w,y,r);X.closePath();}
+function T(s,x,y,size,c,al){X.save();X.font='900 '+size+'px '+FONT;X.textAlign=al||'center';X.textBaseline='middle';X.direction='rtl';X.fillStyle=c;X.fillText(s,x,y);X.restore();}
+function page(){ // ورقة بيضاء + شبكة مرتبة (أزرق/بنفسجي) + حافة تذوب في البانر
+  const H=1210; X.save(); const g=X.createLinearGradient(0,0,0,H); g.addColorStop(0,'#F8FAFE'); g.addColorStop(1,'#EEF2FB'); X.fillStyle=g; X.fillRect(0,0,1080,H);
+  for(let x=60;x<1080;x+=60){X.strokeStyle=rgba(x%240===60?PURP:BLUE,x%240===60?0.16:0.08);X.lineWidth=x%240===60?2:1;X.beginPath();X.moveTo(x,0);X.lineTo(x,H);X.stroke();}
+  for(let y=60;y<H;y+=60){X.strokeStyle=rgba(y%240===60?PURP:BLUE,y%240===60?0.16:0.08);X.lineWidth=y%240===60?2:1;X.beginPath();X.moveTo(0,y);X.lineTo(1080,y);X.stroke();}
+  X.strokeStyle=PURP;X.lineWidth=4;[[90,180,1],[990,180,-1]].forEach(([x,y,s])=>{X.beginPath();X.moveTo(x,y+40);X.lineTo(x,y);X.lineTo(x+40*s,y);X.stroke();});  // علامات زوايا
+  const fg=X.createLinearGradient(0,H-90,0,H); fg.addColorStop(0,'rgba(248,250,254,0)'); fg.addColorStop(1,rgba(PURP,0.35)); X.fillStyle=fg; X.fillRect(0,H-90,1080,90);
+  X.restore(); }
+function badge(n,x,y,c){ X.save(); X.fillStyle=c; rr(x-46,y-46,92,92,24); X.fill(); X.font='900 50px '+FONT; X.textAlign='center'; X.textBaseline='middle'; X.fillStyle='#fff'; X.fillText(n,x,y+3); X.restore(); }
+function icon(k,x,y){ X.save(); X.translate(x,y); X.lineWidth=7; X.strokeStyle=BLUE; X.fillStyle=rgba(BLUE,0.12); X.lineCap='round';
+  if(k==='foam'){ [[0,0,34],[-34,18,22],[30,22,20],[-8,-34,16]].forEach(b=>{X.beginPath();X.arc(b[0],b[1],b[2],0,7);X.fill();X.stroke();}); }
+  if(k==='clean'){ X.strokeStyle=PURP; for(let i=0;i<4;i++){X.rotate(Math.PI/4);X.beginPath();X.moveTo(0,-44);X.lineTo(0,44);X.stroke();} X.fillStyle=PURP; X.beginPath(); X.arc(0,0,10,0,7); X.fill(); }
+  if(k==='sol'){ X.beginPath(); X.moveTo(0,-46); X.bezierCurveTo(30,-6,34,14,34,22); X.arc(0,22,34,0,Math.PI); X.bezierCurveTo(-34,14,-30,-6,0,-46); X.fill(); X.stroke(); X.strokeStyle=PURP; X.lineWidth=5; X.beginPath(); X.arc(0,24,14,Math.PI*1.1,Math.PI*1.9); X.stroke(); }
+  if(k==='visc'){ X.beginPath(); X.moveTo(-34,-40); X.lineTo(34,-40); X.lineTo(34,-14); X.bezierCurveTo(34,10,14,8,12,30); X.arc(4,30,10,0,Math.PI); X.bezierCurveTo(-4,12,-34,10,-34,-14); X.closePath(); X.fill(); X.stroke(); }
+  X.restore(); }
+(async()=>{ await Promise.all([document.fonts.load("900 80px 'Al-Jazeera-Arabic'",'عربي'),load('v','frame.jpg')]); await document.fonts.ready;
+  X.drawImage(IMG.v,0,0,1080,1920); page();
+  T('أداء ممتاز في',540,250,64,INK); X.fillStyle=BLUE; rr(540-120,292,240,10,5); X.fill();
+  const items=[['الرغوة','foam',BLUE],['التنظيف','clean',PURP],['الذوبانية','sol',BLUE],['اللزوجة','visc',PURP]];
+  items.forEach(([w,k,c],i)=>{ const y=420+i*175; X.save(); X.shadowColor='rgba(14,21,36,0.12)'; X.shadowBlur=30; X.shadowOffsetY=10; X.fillStyle='#FFFFFF'; rr(110,y-70,860,140,30); X.fill(); X.restore();
+    X.strokeStyle=rgba(c,0.25); X.lineWidth=3; rr(110,y-70,860,140,30); X.stroke();
+    badge(String(i+1).padStart(2,'0'),905,y,c); T(w,830,y+4,78,INK,'right'); icon(k,210,y); });
+  T('01 / 04',990,140,34,rgba(PURP,0.8),'right');
+  window.DONE=true; })();
+</script></body></html>

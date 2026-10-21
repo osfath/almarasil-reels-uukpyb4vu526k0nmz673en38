@@ -1,0 +1,42 @@
+<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8">
+<style>@font-face{font-family:'AJ';src:url('../aljazeera-bold.ttf');font-weight:100 900;}
+@font-face{font-family:'AJ';src:local('Arial Black'),local('Arial Bold');unicode-range:U+0041-005A,U+0061-007A;font-weight:100 900;}
+body{margin:0;background:transparent}</style></head><body><canvas id="cv"></canvas>
+<script src="../assets/map/map.js"></script>
+<script>
+/* خريطة شركة المراسيل — متحركة بلا خلفية: draw(t) لكل فريم (×2) · ?card=1 = مع كرت أبيض */
+const CARD=location.search.includes('card=1'), K=2, W0=960, H0=820, C=document.getElementById('cv'); C.width=W0*K; C.height=H0*K; const X=C.getContext('2d'); X.scale(K,K);
+const ACC='#2E74E6', PURP='#6B4BC2', NAVY='#0E1524', INKD='#16213A', F="'AJ'";
+const MS=2.1, MC=[-162,-140]; const mp=q=>[480+(q[0]-MC[0])*MS, 410-(q[1]-MC[1])*MS];
+function rr(x,y,w,h,r){X.beginPath();X.moveTo(x+r,y);X.arcTo(x+w,y,x+w,y+h,r);X.arcTo(x+w,y+h,x,y+h,r);X.arcTo(x,y+h,x,y,r);X.arcTo(x,y,x+w,y,r);X.closePath();}
+function txt(s,x,y,fs,c,al,ltr){X.save();X.font='900 '+fs+'px '+F;X.textAlign=al||'center';X.textBaseline='middle';X.direction=ltr?'ltr':'rtl';X.fillStyle=c;X.fillText(s,x,y);X.restore();}
+function tw(s,fs){X.save();X.font='900 '+fs+'px '+F;X.direction='rtl';const w=X.measureText(s).width;X.restore();return w;}
+function poly(p){X.beginPath();X.moveTo(p[0][0],p[0][1]);for(let i=1;i<p.length;i++)X.lineTo(p[i][0],p[i][1]);}
+function pill(s,x,y,fs,f,c){const w=tw(s,fs)+fs*1.2,h=fs*1.9;X.save();X.shadowColor='rgba(14,21,36,0.18)';X.shadowBlur=16;X.shadowOffsetY=5;rr(x-w/2,y-h/2,w,h,h/2);X.fillStyle=f;X.fill();X.restore();txt(s,x,y+2,fs,c);}
+
+const P=(t,a,b)=>Math.max(0,Math.min(1,(t-a)/(b-a))), lp=(a,b,k)=>a+(b-a)*k, eo=k=>1-Math.pow(1-k,3), eo5=k=>1-Math.pow(1-k,5), eio=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2, ob=k=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(k-1,3)+c1*Math.pow(k-1,2);};
+function plen(p){let L=0;for(let i=1;i<p.length;i++)L+=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);return L;}
+function partial(p,k){const L=plen(p)*k,o=[p[0]];let a=0;for(let i=1;i<p.length;i++){const d=Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]);if(a+d>=L){const f=(L-a)/(d||1);o.push([lp(p[i-1][0],p[i][0],f),lp(p[i-1][1],p[i][1],f)]);return o;}a+=d;o.push(p[i]);}return o;}
+const ROADC=CARD?{svc:'#E6EBF5',res:'#DFE5F2',silo:'#DFE5F2',main:'#CCD8F2'}:{svc:'#D3DBEE',res:'#C7D1E8',silo:'#C7D1E8',main:'#B4C4EA'};
+window.draw=function(t){ const M=window.MAPD; X.setTransform(K,0,0,K,0,0); X.clearRect(0,0,W0,H0);
+  const ka0=eo5(P(t,0,0.35)); X.save(); X.globalAlpha=ka0; rr(0,0,W0,H0,30); X.clip(); if(CARD){ X.fillStyle='#FFFFFF'; X.fillRect(0,0,W0,H0); }
+  const co=mp(M.company), pz=1+0.06*eio(P(t,3.3,5.5)); X.translate(co[0],co[1]); X.scale(pz,pz); X.translate(-co[0],-co[1]);
+  const kr=eio(P(t,0.05,0.95));
+  [['svc',9],['res',13],['silo',15],['main',26]].forEach(([k,lw])=>{ X.strokeStyle=ROADC[k]; X.lineWidth=lw; X.lineCap='round'; X.lineJoin='round'; M.roads.filter(r=>r.k===k).forEach(r=>{ const p=r.p.map(mp); poly(kr<1?partial(p,kr):p); X.stroke(); }); });
+  const ks=eo(P(t,1.75,2.1)); if(ks>0){ X.save(); X.globalAlpha*=ks; X.strokeStyle=PURP; X.lineWidth=14; X.lineCap='round'; X.shadowColor='rgba(107,75,194,0.6)'; X.shadowBlur=18; M.roads.filter(r=>r.k==='silo').forEach(r=>{ poly(r.p.map(mp)); X.stroke(); }); X.restore(); }
+  const R=M.route.map(mp), iJ=M.iJ, A=R.slice(0,iJ+1), B=R.slice(iJ), ka=eio(P(t,1.0,2.55)), kb=eio(P(t,2.55,3.25)); let path=null;
+  if(ka>0){ path=ka<1?partial(A,ka):A; if(kb>0) path=path.concat(partial(B,kb).slice(1)); }
+  if(path){ X.lineCap='round'; X.lineJoin='round'; poly(path); X.strokeStyle='#FFFFFF'; X.lineWidth=22; X.stroke(); poly(path); X.strokeStyle=ACC; X.lineWidth=12; X.stroke();
+    const hd=path[path.length-1]; if(kb<1){ X.fillStyle='#FFFFFF'; X.beginPath(); X.arc(hd[0],hd[1],17,0,7); X.fill(); X.fillStyle=ACC; X.beginPath(); X.arc(hd[0],hd[1],11,0,7); X.fill(); } }
+  const rb=mp([0,0]), kd=P(t,0.45,0.8); if(kd>0){ const s2=ob(kd); X.save(); X.translate(rb[0],rb[1]); X.scale(s2,s2); X.fillStyle='#FFFFFF'; X.strokeStyle=NAVY; X.lineWidth=8; X.beginPath(); X.arc(0,0,20,0,7); X.fill(); X.stroke(); X.fillStyle=NAVY; X.beginPath(); X.arc(0,0,7,0,7); X.fill(); X.restore();
+    X.save(); X.globalAlpha*=Math.min(1,kd*2); pill('دورة الحماميل',rb[0]-50,rb[1]+70,32,NAVY,'#FFFFFF'); X.restore(); }
+  if(ks>0){ const sp=mp([-198,-156]); X.save(); X.globalAlpha*=ks; X.translate(sp[0],sp[1]); const s3=lp(0.6,1,ob(P(t,1.75,2.1))); X.scale(s3,s3); X.translate(-sp[0],-sp[1]); pill('شارع السايلو',sp[0],sp[1],34,PURP,'#FFFFFF'); X.restore(); }
+  const kp=P(t,3.25,3.55); if(kp>0){ const land=co[1], yy=lp(land-220,land,eo5(kp)); X.save(); X.globalAlpha*=Math.min(1,kp*3); X.fillStyle='rgba(14,21,36,0.18)'; X.beginPath(); X.ellipse(co[0],land+4,18,6,0,0,7); X.fill();
+    X.translate(co[0],yy); X.shadowColor='rgba(46,116,230,0.6)'; X.shadowBlur=20; X.fillStyle=ACC; X.beginPath(); X.moveTo(0,0); X.bezierCurveTo(-16,-30,-40,-48,-40,-80); X.arc(0,-80,40,Math.PI,0); X.bezierCurveTo(40,-48,16,-30,0,0); X.closePath(); X.fill(); X.shadowBlur=0; X.fillStyle='#FFFFFF'; X.beginPath(); X.arc(0,-80,15,0,7); X.fill(); X.restore();
+    const kq=P(t,3.45,3.75); if(kq>0){ X.save(); X.globalAlpha*=eo(kq); const cx=co[0]+48, cw=400, ch=118, cy0=co[1]-140;
+      X.shadowColor='rgba(14,21,36,0.18)'; X.shadowBlur=20; X.shadowOffsetY=6; rr(cx,cy0,cw,ch,22); X.fillStyle='#FFFFFF'; X.fill(); X.shadowColor='transparent'; X.strokeStyle='rgba(46,116,230,0.5)'; X.lineWidth=3; rr(cx,cy0,cw,ch,22); X.stroke(); X.fillStyle=ACC; X.fillRect(cx+cw-8,cy0+18,8,ch-36);
+      txt('شركة المراسيل',cx+cw-30,cy0+40,40,INKD,'right'); const kw=eo(P(t,3.65,3.95)); if(kw>0){ X.globalAlpha*=kw; txt('قرب ورش الألمنيوم والبلاستيك',cx+cw-30,cy0+88,27,PURP,'right'); } X.restore(); } }
+  X.restore(); X.save(); X.globalAlpha=0.6*ka0; txt('© OpenStreetMap',24,H0-22,18,'rgba(22,33,58,1)','left',1); X.restore();
+  if(CARD){ X.save(); X.globalAlpha=ka0; X.strokeStyle='rgba(107,75,194,0.25)'; X.lineWidth=3; rr(1.5,1.5,W0-3,H0-3,30); X.stroke(); X.restore(); } };
+document.fonts.load("900 40px 'AJ'",'عربي').then(()=>document.fonts.ready).then(()=>{ const q=new URLSearchParams(location.search); window.draw(q.has('t')?+q.get('t'):99); window.DONE=true; });
+</script></body></html>
