@@ -2,7 +2,7 @@
 
 نظام مونتاج ريلز وإعلانات **شركة المراسيل لتجارة المواد الأولية للمنظفات** بهويتها الثابتة: البانر البنفسجي، الباليت، خط الجزيرة، الكابشن بالظل، صفحات Promax البيضاء، والمؤثرات الصوتية المعتمدة. نفس الأسلوب اللي انبنت فيه مشاريع الشركة من 01 لين 08.
 
-> ⚠️ **خاص بموظفي الشركة.** فيه خط الجزيرة (حقوقه لأصحابه) وأرقام الشركة وعنوانها — لا تنشر المستودع ولا تشاركه برّا الشركة.
+> ⚠️ **خاص بموظفي الشركة.** فيه خط الجزيرة (حقوقه لأصحابه) وأرقام الشركة وعنوانها — للاستخدام داخل الشركة.
 
 ## شنو يسوي
 تعطيه فيديو خام من الجوال (برميل، مستودع، منتج، شرح مادة)، يطلع لك ريل 9:16 جاهز:
@@ -16,12 +16,12 @@
 ## التثبيت
 افتح Claude Code بأي مجلد وقل له:
 ```
-ثبّت سكل المراسيل من https://github.com/osfath/almarasil-reels
+ثبّت سكل المراسيل من https://github.com/osfath/almarasil-reels-uukpyb4vu526k0nmz673en38
 ```
 أو بنفسك (ويندوز: Git Bash · ماك: Terminal):
 ```bash
-git clone https://github.com/osfath/almarasil-reels.git
-bash almarasil-reels/install.sh
+git clone https://github.com/osfath/almarasil-reels-uukpyb4vu526k0nmz673en38.git
+bash almarasil-reels-uukpyb4vu526k0nmz673en38/install.sh
 ```
 يثبّت سكلين بـ`~/.claude/skills/` (`almarasil-reels` + المحرّك `video-ad-editor`) ويسوي مجلد الشغل **`~/AlMarasil-Reels`**.
 
